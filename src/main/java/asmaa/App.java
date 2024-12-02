@@ -23,6 +23,7 @@ public class App {
                 case 10: recommendFriends(); break;
                 case 11: removeUser(); break;
                 case 12: removeFriendship(); break;
+                case 13: findTopInfluencers(connectHub); break;
                 case 0: System.out.println("Thank you for using ConnectHub. Goodbye!"); break;
                 default: System.out.println("Invalid choice. Please try again.");
             }
@@ -34,17 +35,18 @@ public class App {
         System.out.println("Welcome to ConnectHub - Social Network Platform");
         System.out.println("------------------------------------------------------------");
         System.out.println("1. Add a new user");
-        System.out.println("2. Add a friendship between users (default weight: 1.0)");
+        System.out.println("2. Add a friendship");
         System.out.println("3. View user details");
         System.out.println("4. Display the network structure");
-        System.out.println("5. Add a post for a user");
+        System.out.println("5. Add a post");
         System.out.println("6. View posts by a user");
-        System.out.println("7. Like a user's post");
-        System.out.println("8. Find the dearest friend of a user");
+        System.out.println("7. Like a post");
+        System.out.println("8. Find the closest friend of a user");
         System.out.println("9. Check if the network is fully connected");
-        System.out.println("10. Recommend friends for a user");
+        System.out.println("10. Recommend friends");
         System.out.println("11. Remove a user from the network");
         System.out.println("12. Remove a friendship between two users");
+        System.out.println("13. Find Top Influencers");
         System.out.println("0. Exit");
         System.out.println("------------------------------------------------------------");
     }
@@ -159,4 +161,11 @@ public class App {
         String id2 = scanner.nextLine();
         connectHub.removeFriendship(id1, id2);
     }
+    public static void findTopInfluencers(ConnectHub connectHub) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of top influencers to display: ");
+        int topN = scanner.nextInt();
+        connectHub.displayTopInfluencers(topN);
+    }
+    
 }

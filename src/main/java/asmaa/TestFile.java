@@ -109,6 +109,22 @@ public class TestFile {
                             System.out.println("Network connected: " + connectHub.isNetworkConnected());
                             break;
 
+                            case "findTopInfluencers":
+                            if (parts.length < 2) {
+                                System.out.println("Invalid command format for findTopInfluencers: " + line);
+                                break;
+                            }
+                            int topN;
+                            try {
+                                topN = Integer.parseInt(parts[1]);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid number format for top influencers: " + parts[1]);
+                                break;
+                            }
+                            connectHub.displayTopInfluencers(topN);
+                            break;
+                        
+
                         default:
                             System.out.println("Unknown command: " + command);
                     }
