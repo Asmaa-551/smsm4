@@ -14,7 +14,7 @@ public class ConnectHub {
     }
 
     public void addMember(String id, String name) {
-        if (findUser(id) != null) {
+        if (findUser(id) != null) { //check if the user is already in the app
             System.out.println("User with ID " + id + " already exists");
             return;
         }
@@ -30,7 +30,7 @@ public class ConnectHub {
         User m2= findUser(id2);
 
         if (m1 != null && m2 != null) {
-            if (!graph.containsEdge(m1, m2)) {
+            if (!graph.containsEdge(m1, m2)) { // if the friendship exists then do nothing else add them in the weighted graph
                 DefaultWeightedEdge edge = graph.addEdge(m1, m2);
                 graph.setEdgeWeight(edge, 1);
                 System.out.println("Friendship added between " + m1.getName() + " and " + m2.getName());
@@ -49,12 +49,12 @@ public class ConnectHub {
     public void displayTopInfluencers(int topN) {
         ArrayList<UserDegree> userDegree = new ArrayList<>();
 
-        for (User user : graph.vertexSet()) {
+        for (User user : graph.vertexSet()) { // calculate the degree for each user to check the top users degree
             int degree = graph.degreeOf(user);
             userDegree.add(new UserDegree(user, degree));
         }
 
-        Collections.sort(userDegree);
+        Collections.sort(userDegree); // sort them in descending to find out who got the highest degree 
 
         System.out.println("Top " + topN + " Influencers:");
         for (int i = 0; i < Math.min(topN, userDegree.size()); i++) {
@@ -69,7 +69,7 @@ public class ConnectHub {
         ArrayList<User> visited = new ArrayList<>();
 
         for (User user : graph.vertexSet()) {
-            if (!visited.contains(user)) {
+            if (!visited.contains(user)) { // find a group using dfs
                 ArrayList<User> group = new ArrayList<>();
                 find(user, group, visited);
                 friendGroups.add(group);
@@ -100,7 +100,7 @@ public class ConnectHub {
         ArrayList<UserDegree> recommendations = new ArrayList<>();
         ArrayList<User> SDfriends = new ArrayList<>();
 
-        for (User friend : directFriends) {
+        for (User friend : directFriends) { // get a list for the first and second degree friends
             for (User secondDegree : Graphs.neighborListOf(graph, friend)) {
                 if (!secondDegree.equals(user) && !directFriends.contains(secondDegree)) {
                     SDfriends.add(secondDegree);
@@ -112,7 +112,7 @@ public class ConnectHub {
         for (User candidate : SDfriends) {
             if (!processed.contains(candidate)) {
                 int frequency = Collections.frequency(SDfriends, candidate);
-                recommendations.add(new UserDegree(candidate, frequency));
+                recommendations.add(new UserDegree(candidate, frequency)); // add if it doesn't exists
                 processed.add(candidate);
             }
         }
