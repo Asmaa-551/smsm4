@@ -284,4 +284,27 @@ public class ConnectHub {
         return dearestFriend;
     }
 
+    public void privateChat(String senderId, String receiverId, String message) {
+        User sender = userMap.get(senderId);
+        User receiver = userMap.get(receiverId);
+    
+        if (sender == null || receiver == null) {
+            System.out.println("The network does not contain one or both of the users");
+            return;
+        }
+    
+        DefaultWeightedEdge edge = graph.getEdge(sender, receiver);
+        if (edge == null) {
+            System.out.println("No connection exists between " + sender.getName() + " and " + receiver.getName() + ".");
+            return;
+        }
+
+        sender.addChatMessage(receiver.getId(), "You: " + message);
+        receiver.addChatMessage(sender.getId(), sender.getName() + ": " + message);
+    
+        System.out.println("From " + sender.getName() + " to " + receiver.getName() + ": " + message);
+    
+    
+    }
+
 }

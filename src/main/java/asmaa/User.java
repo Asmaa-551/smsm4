@@ -5,11 +5,14 @@ public class User {
     private String id;
     private String name;
     private ArrayList<Post> posts;
+    private ArrayList<chat> chatHistories;
 
     public User(String id, String name) {
         this.id = id;
         this.name = name;
         this.posts = new ArrayList<>();
+        this.chatHistories = new ArrayList<>();
+
     }
 
     public String getId() {
@@ -34,6 +37,29 @@ public class User {
 
     public ArrayList<Post> getPosts() {
         return posts;
+    }
+
+    public void addChatMessage(String userId, String message) {
+        chat chatHistory = findChatHistory(userId);
+        if (chatHistory == null) {
+            chatHistory = new chat(userId);
+            chatHistories.add(chatHistory);
+        }
+        chatHistory.addMessage(message);
+    }
+
+    public ArrayList<String> getChatHistory(String userId) {
+        chat chatHistory = findChatHistory(userId);
+        return chatHistory != null ? chatHistory.getMessages() : new ArrayList<>();
+    }
+
+    private chat findChatHistory(String userId) {
+        for (chat chatHistory : chatHistories) {
+            if (chatHistory.getUserId().equals(userId)) {
+                return chatHistory;
+            }
+        }
+        return null;
     }
 
     @Override
