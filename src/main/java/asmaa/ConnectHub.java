@@ -14,26 +14,26 @@ public class ConnectHub {
     }
 
     public void addMember(String id, String name) {
-        if (findUserById(id) != null) {
-            System.out.println("User with ID " + id + " already exists.");
+        if (findUser(id) != null) {
+            System.out.println("User with ID " + id + " already exists");
             return;
         }
         User member = new User(id, name);
         graph.addVertex(member);
         userMap.put(id, member);
-        System.out.println("Member added Successfully");
+        System.out.println("Member added Successfully :)");
 
     }
 
     public void addFriendship(String id1, String id2, double initialWeight) {
-        User member1 = findUserById(id1);
-        User member2 = findUserById(id2);
+        User m1 = findUser(id1);
+        User m2= findUser(id2);
 
-        if (member1 != null && member2 != null) {
-            if (!graph.containsEdge(member1, member2)) {
-                DefaultWeightedEdge edge = graph.addEdge(member1, member2);
+        if (m1 != null && m2 != null) {
+            if (!graph.containsEdge(m1, m2)) {
+                DefaultWeightedEdge edge = graph.addEdge(m1, m2);
                 graph.setEdgeWeight(edge, initialWeight);
-                System.out.println("Friendship added between " + member1.getName() + " and " + member2.getName());
+                System.out.println("Friendship added between " + m1.getName() + " and " + m2.getName());
             } else {
                 System.out.println("Friendship already exists!");
             }
@@ -42,23 +42,23 @@ public class ConnectHub {
         }
     }
 
-    public User findUserById(String userId) {
+    public User findUser(String userId) {
         return userMap.get(userId);
     }
 
     public void displayTopInfluencers(int topN) {
-        ArrayList<UserDegree> userDegrees = new ArrayList<>();
+        ArrayList<UserDegree> userDegree = new ArrayList<>();
 
         for (User user : graph.vertexSet()) {
             int degree = graph.degreeOf(user);
-            userDegrees.add(new UserDegree(user, degree));
+            userDegree.add(new UserDegree(user, degree));
         }
 
-        Collections.sort(userDegrees);
+        Collections.sort(userDegree);
 
         System.out.println("Top " + topN + " Influencers:");
-        for (int i = 0; i < Math.min(topN, userDegrees.size()); i++) {
-            UserDegree md = userDegrees.get(i);
+        for (int i = 0; i < Math.min(topN, userDegree.size()); i++) {
+            UserDegree md = userDegree.get(i);
             System.out.println((i + 1) + ". " + md.getUser().getName() + " - " + md.getDegree() + " connections");
         }
 
@@ -71,7 +71,7 @@ public class ConnectHub {
         for (User user : graph.vertexSet()) {
             if (!visited.contains(user)) {
                 ArrayList<User> group = new ArrayList<>();
-                exploreGroup(user, group, visited);
+                explore(user, group, visited);
                 friendGroups.add(group);
             }
         }
@@ -79,39 +79,39 @@ public class ConnectHub {
         return friendGroups;
     }
 
-    private void exploreGroup(User user, ArrayList<User> group, ArrayList<User> visited) {
+    private void explore(User user, ArrayList<User> group, ArrayList<User> visited) {
         visited.add(user);
         group.add(user);
 
         for (User neighbor : Graphs.neighborListOf(graph, user)) {
             if (!visited.contains(neighbor)) {
-                exploreGroup(neighbor, group, visited);
+                explore(neighbor, group, visited);
             }
         }
     }
 
     public ArrayList<User> recommendFriends(String userId) {
-        User user = findUserById(userId);
+        User user = findUser(userId);
         if (user == null) {
             System.out.println("User with ID " + userId + " does not exist.");
             return new ArrayList<>();
         }
         ArrayList<User> directFriends = new ArrayList<>(Graphs.neighborListOf(graph, user));
         ArrayList<UserDegree> recommendations = new ArrayList<>();
-        ArrayList<User> allSecondDegreeFriends = new ArrayList<>();
+        ArrayList<User> SDfriends = new ArrayList<>();
 
         for (User friend : directFriends) {
             for (User secondDegree : Graphs.neighborListOf(graph, friend)) {
                 if (!secondDegree.equals(user) && !directFriends.contains(secondDegree)) {
-                    allSecondDegreeFriends.add(secondDegree);
+                    SDfriends.add(secondDegree);
                 }
             }
         }
 
         ArrayList<User> processed = new ArrayList<>();
-        for (User candidate : allSecondDegreeFriends) {
+        for (User candidate : SDfriends) {
             if (!processed.contains(candidate)) {
-                int frequency = Collections.frequency(allSecondDegreeFriends, candidate);
+                int frequency = Collections.frequency(SDfriends, candidate);
                 recommendations.add(new UserDegree(candidate, frequency));
                 processed.add(candidate);
             }
@@ -119,12 +119,12 @@ public class ConnectHub {
 
         Collections.sort(recommendations);
 
-        ArrayList<User> sortedRecommendations = new ArrayList<>();
+        ArrayList<User> sortedR = new ArrayList<>();
         for (UserDegree ud : recommendations) {
-            sortedRecommendations.add(ud.getUser());
+            sortedR.add(ud.getUser());
         }
 
-        return sortedRecommendations;
+        return sortedR;
     }
 
     public boolean isNetworkConnected() {
@@ -143,7 +143,7 @@ public class ConnectHub {
     }
 
     public void viewUserDetails(String userId) {
-        User user = findUserById(userId);
+        User user = findUser(userId);
 
         if (user == null) {
             System.out.println("User with ID " + userId + " not found in the network.");
