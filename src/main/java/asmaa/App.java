@@ -185,14 +185,18 @@ public class App {
         System.out.print("Enter the recipient user ID (receiver): ");
         String receiverId = scanner.nextLine();
     
-        System.out.print("Enter the message you want to send: ");
+        System.out.println("\nChat History:");
+        connectHub.viewChatHistory(senderId, receiverId);
+    
+        System.out.print("\nEnter the message you want to send: ");
         String message = scanner.nextLine();
     
         connectHub.privateChat(senderId, receiverId, message);
-        System.out.println("Chat History:");
-        connectHub.viewChatHistory(senderId, receiverId);
     
+        System.out.println("\nUpdated Chat History:");
+        connectHub.viewChatHistory(senderId, receiverId);
     }
+    
     
     
 }

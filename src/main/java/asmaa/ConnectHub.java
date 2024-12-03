@@ -126,7 +126,7 @@ public class ConnectHub {
 
         return sortedR;
     }
-
+    // method from the jgrapht library to check if a network is connected
     public boolean isNetworkConnected() {
         ConnectivityInspector<User, DefaultWeightedEdge> inspector = new ConnectivityInspector<>(graph);
         return inspector.isConnected();
@@ -289,7 +289,7 @@ public class ConnectHub {
         User receiver = userMap.get(receiverId);
     
         if (sender == null || receiver == null) {
-            System.out.println("The network does not contain one or both of the users");
+            System.out.println("The network does not contain one or both of the users.");
             return;
         }
     
@@ -298,34 +298,32 @@ public class ConnectHub {
             System.out.println("No connection exists between " + sender.getName() + " and " + receiver.getName() + ".");
             return;
         }
-
+    
         sender.addChatMessage(receiver.getId(), "You: " + message);
         receiver.addChatMessage(sender.getId(), sender.getName() + ": " + message);
     
-        System.out.println("From " + sender.getName() + " to " + receiver.getName() + ": " + message);
-    
-    
+        System.out.println("Message sent from " + sender.getName() + " to " + receiver.getName() + ": " + message);
     }
+    
 
     public void viewChatHistory(String senderId, String receiverId) {
         User sender = userMap.get(senderId);
         User receiver = userMap.get(receiverId);
-        
+    
         if (sender == null || receiver == null) {
             System.out.println("One or both of the users are not found.");
             return;
         }
     
         System.out.println("Chat history between " + sender.getName() + " and " + receiver.getName() + ":");
-
-        for (String message : sender.getChatHistory(receiver.getId())) {
-            System.out.println("You: " + message);
-        }
-
-        for (String message : receiver.getChatHistory(sender.getId())) {
-            System.out.println(receiver.getName() + ": " + message);
+    
+        ArrayList<String> senderMessages = sender.getChatHistory(receiver.getId());
+        for (String message : senderMessages) {
+            System.out.println(message);
         }
     }
+    
+    
     
     
 

@@ -1,0 +1,34 @@
+addUser 1 Ahmed
+addUser 2 Fatima
+addUser 3 Khaled
+addUser 4 Maryam
+addUser 5 Ali
+addFriendship 1 2
+addFriendship 1 3
+addFriendship 2 4
+addFriendship 3 5
+addPost 1 Hello World
+addPost 2 Hi
+addPost 3 LOL
+addPost 4 Bye
+addPost 5 ByeBye
+likePost 1 2 1
+likePost 3 5 1
+likePost 2 4 1
+viewUserDetails 1
+viewUserDetails 2
+viewUserDetails 3
+displayNetworkStructure
+findDearestFriend 1
+findDearestFriend 2
+recommendFriends 3
+addUser 6 Yusuf
+viewUserDetails 6
+findDearestFriend 6
+addFriendship 6 7
+likePost 1 7 1
+likePost 1 2 1
+removeFriendship 1 2
+removeUser 4
+isNetworkConnected
+findTopInfluencers 3
