@@ -216,7 +216,7 @@ public class ConnectHub {
             return;
         }
 
-        System.out.println("Posts by " + user.getName() + ":");
+        System.out.println("Posts by " + user.getName() + ":"); // show all of the user's posts
         ArrayList<Post> posts = user.getPosts();
         for (int i = 0; i < posts.size(); i++) {
             System.out.println((i+1) + ": " + posts.get(i));
@@ -232,25 +232,25 @@ public class ConnectHub {
             return;
         }
     
-        DefaultWeightedEdge edge = graph.getEdge(liker, author);
+        DefaultWeightedEdge edge = graph.getEdge(liker, author); // there should be a friendship between the two users 
         if (edge == null) {
             System.out.println("No connection exists between " + liker.getName() + " and " + author.getName() + ".");
             return;
         }
     
         ArrayList<Post> posts = author.getPosts();
-        int index = index1 - 1; 
+        int index = index1 - 1;  // the list will start from 0
         if (index < 0 || index >= posts.size()) {
             System.out.println("Invalid post index for user " + author.getName() + ". Available posts: " + posts.size());
             return;
         }
     
-        Post post = posts.get(index);
-        post.likePost();
+        Post post = posts.get(index); 
+        post.likePost(); 
         System.out.println(liker.getName() + " liked the post: " + post);
     
         double currentWeight = graph.getEdgeWeight(edge);
-        graph.setEdgeWeight(edge, currentWeight + 1.0);
+        graph.setEdgeWeight(edge, currentWeight + 1.0); // increase the weight 
     }
     
 
@@ -262,7 +262,7 @@ public class ConnectHub {
             return null;
         }
 
-        ArrayList<User> neighbors = new ArrayList<>(Graphs.neighborListOf(graph, user));
+        ArrayList<User> neighbors = new ArrayList<>(Graphs.neighborListOf(graph, user)); // get all of the first degree friends
         if (neighbors.isEmpty()) {
             System.out.println(user.getName() + " has no connections.");
             return null;
@@ -288,7 +288,7 @@ public class ConnectHub {
         User sender = userMap.get(senderId);
         User receiver = userMap.get(receiverId);
     
-        if (sender == null || receiver == null) {
+        if (sender == null || receiver == null) { // the users should be friends
             System.out.println("The network does not contain one or both of the users.");
             return;
         }
@@ -318,7 +318,7 @@ public class ConnectHub {
         System.out.println("Chat history between " + sender.getName() + " and " + receiver.getName() + ":");
     
         ArrayList<String> senderMessages = sender.getChatHistory(receiver.getId());
-        for (String message : senderMessages) {
+        for (String message : senderMessages) { // print all messages
             System.out.println(message);
         }
     }
