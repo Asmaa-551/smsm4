@@ -25,14 +25,14 @@ public class ConnectHub {
 
     }
 
-    public void addFriendship(String id1, String id2, double initialWeight) {
+    public void addFriendship(String id1, String id2) {
         User m1 = findUser(id1);
         User m2= findUser(id2);
 
         if (m1 != null && m2 != null) {
             if (!graph.containsEdge(m1, m2)) {
                 DefaultWeightedEdge edge = graph.addEdge(m1, m2);
-                graph.setEdgeWeight(edge, initialWeight);
+                graph.setEdgeWeight(edge, 1);
                 System.out.println("Friendship added between " + m1.getName() + " and " + m2.getName());
             } else {
                 System.out.println("Friendship already exists!");
@@ -71,7 +71,7 @@ public class ConnectHub {
         for (User user : graph.vertexSet()) {
             if (!visited.contains(user)) {
                 ArrayList<User> group = new ArrayList<>();
-                explore(user, group, visited);
+                find(user, group, visited);
                 friendGroups.add(group);
             }
         }
@@ -79,13 +79,13 @@ public class ConnectHub {
         return friendGroups;
     }
 
-    private void explore(User user, ArrayList<User> group, ArrayList<User> visited) {
+    private void find(User user, ArrayList<User> group, ArrayList<User> visited) {
         visited.add(user);
         group.add(user);
 
         for (User neighbor : Graphs.neighborListOf(graph, user)) {
             if (!visited.contains(neighbor)) {
-                explore(neighbor, group, visited);
+                find(neighbor, group, visited);
             }
         }
     }
@@ -132,7 +132,7 @@ public class ConnectHub {
         return inspector.isConnected();
     }
 
-    public void displayNetworkStructure() {
+    public void printGraph() {
         for (User user : graph.vertexSet()) {
             System.out.print(user.getName() + " -> ");
             for (User friend : Graphs.neighborListOf(graph, user)) {
@@ -223,7 +223,7 @@ public class ConnectHub {
         }
     }
 
-    public void likePost(String likerId, String authorId, int postIndex) {
+    public void likePost(String likerId, String authorId, int index1) {
         User liker = userMap.get(likerId);
         User author = userMap.get(authorId);
     
@@ -239,13 +239,13 @@ public class ConnectHub {
         }
     
         ArrayList<Post> posts = author.getPosts();
-        int zeroBasedIndex = postIndex - 1; 
-        if (zeroBasedIndex < 0 || zeroBasedIndex >= posts.size()) {
+        int index = index1 - 1; 
+        if (index < 0 || index >= posts.size()) {
             System.out.println("Invalid post index for user " + author.getName() + ". Available posts: " + posts.size());
             return;
         }
     
-        Post post = posts.get(zeroBasedIndex);
+        Post post = posts.get(index);
         post.likePost();
         System.out.println(liker.getName() + " liked the post: " + post);
     

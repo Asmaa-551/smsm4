@@ -4,9 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class TestFile {
-
-    public static void main(String[] args) {
-        ConnectHub connectHub = new ConnectHub();
+    public static void read(ConnectHub connectHub) {
 
         try (Scanner scanner = new Scanner(new File("test.txt"))) {
             while (scanner.hasNextLine()) {
@@ -31,7 +29,7 @@ public class TestFile {
                                 System.out.println("Invalid command format for addFriendship: " + line);
                                 break;
                             }
-                            connectHub.addFriendship(parts[1], parts[2], 1.0);
+                            connectHub.addFriendship(parts[1], parts[2]);
                             break;
 
                         case "removeFriendship":
@@ -48,7 +46,8 @@ public class TestFile {
                                 break;
                             }
                             String userId = parts[1];
-                            String content = String.join(" ", parts).substring(parts[0].length() + parts[1].length() + 2);
+                            String content = String.join(" ", parts)
+                                    .substring(parts[0].length() + parts[1].length() + 2);
                             connectHub.addPost(userId, content);
                             break;
 
@@ -78,7 +77,8 @@ public class TestFile {
                             break;
 
                         case "displayNetworkStructure":
-                            connectHub.displayNetworkStructure();
+                            System.out.println("Network Structur: ");
+                            connectHub.printGraph();
                             break;
 
                         case "findDearestFriend":
@@ -109,7 +109,7 @@ public class TestFile {
                             System.out.println("Network connected: " + connectHub.isNetworkConnected());
                             break;
 
-                            case "findTopInfluencers":
+                        case "findTopInfluencers":
                             if (parts.length < 2) {
                                 System.out.println("Invalid command format for findTopInfluencers: " + line);
                                 break;
@@ -123,7 +123,6 @@ public class TestFile {
                             }
                             connectHub.displayTopInfluencers(topN);
                             break;
-                        
 
                         default:
                             System.out.println("Unknown command: " + command);

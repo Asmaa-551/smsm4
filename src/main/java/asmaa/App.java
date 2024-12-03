@@ -24,6 +24,7 @@ public class App {
                 case 11: removeUser(); break;
                 case 12: removeFriendship(); break;
                 case 13: findTopInfluencers(connectHub); break;
+                case 14: loadData(); break;
                 case 0: System.out.println("Thank you for using ConnectHub. Goodbye!"); break;
                 default: System.out.println("Invalid choice. Please try again.");
             }
@@ -47,6 +48,7 @@ public class App {
         System.out.println("11. Remove a user from the network");
         System.out.println("12. Remove a friendship between two users");
         System.out.println("13. Find Top Influencers");
+        System.out.println("14. Load Data");
         System.out.println("0. Exit");
         System.out.println("------------------------------------------------------------");
     }
@@ -66,6 +68,10 @@ public class App {
         return choice;
     }
 
+    public static void loadData(){
+        TestFile.read(connectHub);
+    }
+
     public static void addUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
@@ -81,7 +87,7 @@ public class App {
         String id1 = scanner.nextLine();
         System.out.print("Enter the ID of the second user: ");
         String id2 = scanner.nextLine();
-        connectHub.addFriendship(id1, id2, 1.0); 
+        connectHub.addFriendship(id1, id2); 
     }
 
     public static void displayUserDetails() {
@@ -92,7 +98,7 @@ public class App {
     }
 
     public static void displayNetworkStructure() {
-        connectHub.displayNetworkStructure();
+        connectHub.printGraph();
     }
 
     public static void addPost() {
