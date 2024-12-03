@@ -25,6 +25,7 @@ public class App {
                 case 12: removeFriendship(); break;
                 case 13: findTopInfluencers(connectHub); break;
                 case 14: loadData(); break;
+                case 15: sendMessage(); break;
                 case 0: System.out.println("Thank you for using ConnectHub. Goodbye!"); break;
                 default: System.out.println("Invalid choice. Please try again.");
             }
@@ -49,6 +50,7 @@ public class App {
         System.out.println("12. Remove a friendship between two users");
         System.out.println("13. Find Top Influencers");
         System.out.println("14. Load Data");
+        System.out.println("15. Send a message");
         System.out.println("0. Exit");
         System.out.println("------------------------------------------------------------");
     }
@@ -173,5 +175,24 @@ public class App {
         int topN = scanner.nextInt();
         connectHub.displayTopInfluencers(topN);
     }
+
+    public static void sendMessage() {
+        Scanner scanner = new Scanner(System.in);
+    
+        System.out.print("Enter your user ID (sender): ");
+        String senderId = scanner.nextLine();
+    
+        System.out.print("Enter the recipient user ID (receiver): ");
+        String receiverId = scanner.nextLine();
+    
+        System.out.print("Enter the message you want to send: ");
+        String message = scanner.nextLine();
+    
+        connectHub.privateChat(senderId, receiverId, message);
+        System.out.println("Chat History:");
+        connectHub.viewChatHistory(senderId, receiverId);
+    
+    }
+    
     
 }

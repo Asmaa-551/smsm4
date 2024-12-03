@@ -307,4 +307,26 @@ public class ConnectHub {
     
     }
 
+    public void viewChatHistory(String senderId, String receiverId) {
+        User sender = userMap.get(senderId);
+        User receiver = userMap.get(receiverId);
+        
+        if (sender == null || receiver == null) {
+            System.out.println("One or both of the users are not found.");
+            return;
+        }
+    
+        System.out.println("Chat history between " + sender.getName() + " and " + receiver.getName() + ":");
+
+        for (String message : sender.getChatHistory(receiver.getId())) {
+            System.out.println("You: " + message);
+        }
+
+        for (String message : receiver.getChatHistory(sender.getId())) {
+            System.out.println(receiver.getName() + ": " + message);
+        }
+    }
+    
+    
+
 }
